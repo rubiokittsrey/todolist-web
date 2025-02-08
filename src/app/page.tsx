@@ -1,8 +1,10 @@
 import Image from "next/image";
-import PomodoroTimer from "@/components/timer";
+import Timer from "@/components/timer";
 
 export default function Home() {
   return (
-    <PomodoroTimer/>
+    <div className="bg-neutral-700 py-24 min-h-screen">
+      <Timer/>
+    </div>
   );
 }

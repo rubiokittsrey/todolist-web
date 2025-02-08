@@ -56,7 +56,6 @@ const Timer = () => {
     const resetTimer = () => {
         setTimerRunning(false);
         setTimeLeft(defaultTime * 60);
-        setStartedFlag(false);
     };
 
     // the reset button tailwind classes with logic
@@ -65,7 +64,7 @@ const Timer = () => {
         var hoverBg = 'hover:bg-neutral-500';
         var textColor = 'text-white';
 
-        if (!startedFlag) {
+        if (startedFlag) {
             bg = 'bg-neutral-600/40';
             hoverBg = '';
             textColor = 'text-white/25'
@@ -110,17 +109,7 @@ const Timer = () => {
     };
 
     const mainBtnValue = () => {
-      var value = "Start";
-
-      if (!timerRunning && startedFlag) {
-        value = "Resume";
-      } else if (!timerRunning && !startedFlag) {
-        value = "Start";
-      } else if (timerRunning) {
-        value = "Pause";
-      }
-      
-      return value;
+        return !timerRunning ? "Start" : "Pause";  
     };
 
     const mainBtnClasses = () => {
@@ -147,7 +136,7 @@ const Timer = () => {
             text-xl
             font-semibold
             bg-yellow-500/40
-            hover:bg-yellow-600/90
+            hover:bg-yellow
             text-white
             rounded-xl
             `;
@@ -168,7 +157,7 @@ const Timer = () => {
                 >
                     {mainBtnValue()}
                 </button>
-                <button onClick={resetTimer} disabled={!startedFlag} className={resetBtnClasses()}>
+                <button disabled={!startedFlag} className={resetBtnClasses()}>
                     Reset
                 </button>
             </div>
