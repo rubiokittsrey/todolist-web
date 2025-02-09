@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 
 const Timer = () => {
-    const defaultTime = 0.5;
+    const defaultTime = 30;
 
+    const [timeSet, setTimeSet] = useState("");
     const [timeLeft, setTimeLeft] = useState(defaultTime * 60);
     const [timerRunning, setTimerRunning] = useState(false);
     const [startedFlag, setStartedFlag] = useState(false);
@@ -33,7 +34,7 @@ const Timer = () => {
         const hoursStr = Math.floor((time / 60) / 60)
             .toString()
             .padStart(2, "0");
-        const minutesStr = Math.floor((time / 60) / 60)
+        const minutesStr = Math.floor((time / 60) % 60)
             .toString()
             .padStart(2, "0");
         const secondsStr = (time % 60)
@@ -41,9 +42,7 @@ const Timer = () => {
             .padStart(2, "0");
 
         const timeStr = `
-            ${hours > 0 ? `${hoursStr}:` : ''}
-            ${minutesStr}:
-            ${secondsStr}`;
+            ${hours > 0 ? `${hoursStr}:` : ''}${minutesStr}:${secondsStr}`;
 
         return timeStr;
     };
@@ -72,7 +71,7 @@ const Timer = () => {
         }
 
         return `
-        px-8
+        w-28
         py-3
         rounded-xl
         font-sans
@@ -90,13 +89,14 @@ const Timer = () => {
         h-[305px]
         rounded-3xl
         
-        flex flex-col
+        flex flex-row
         items-center
         m-auto
         justify-center    
 
         md:bg-neutral-800
-        lg:w-4/12
+        lg:w-5/12
+        xl:w-3/12
         text-white`;
     };
 
@@ -106,6 +106,7 @@ const Timer = () => {
         font-sans
         mb-11
         font-semibold
+        inline
         `;
     };
 
@@ -128,7 +129,7 @@ const Timer = () => {
         
         if (!timerRunning) {
             finalStr = `
-            px-8
+            w-28
             py-3
             font-sans
             text-xl
@@ -141,7 +142,7 @@ const Timer = () => {
             `;
         } else {
             finalStr = `
-            px-8
+            w-28
             py-3
             font-sans
             text-xl
@@ -158,18 +159,36 @@ const Timer = () => {
 
     return (
         <div className={containerClasses()}>
-            <div className={timeLeftClasses()}>
-                {formatTime(timeLeft)}
-            </div>
-            <div className="space-x-4">
-                <button 
-                    onClick={!timerRunning ? starTimer : pauseTimer}
-                    className={mainBtnClasses()}
-                >
-                    {mainBtnValue()}
+            <div className="w-2/12">
+                <button className="">
+                    <svg fill="none" height="25px" width="25px" id="Layer_1" data-name="Layer 1"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                            <path className="cls-1" d="M8,6.5A1.5,1.5,0,1,1,6.5,8,1.5,1.5,0,0,1,8,6.5ZM.5,8A1.5,1.5,0,1,0,2,6.5,1.5,1.5,0,0,0,.5,8Zm12,0A1.5,1.5,0,1,0,14,6.5,1.5,1.5,0,0,0,12.5,8Z"/>
+                    </svg>
                 </button>
-                <button onClick={resetTimer} disabled={!startedFlag} className={resetBtnClasses()}>
-                    Reset
+            </div>
+            <div className="flex flex-col items-center w-8/12">
+                <div className={timeLeftClasses()}>
+                    {formatTime(timeLeft)}
+                </div>
+                <div className="space-x-4">
+                    <button 
+                        onClick={!timerRunning ? starTimer : pauseTimer}
+                        className={mainBtnClasses()}
+                    >
+                        {mainBtnValue()}
+                    </button>
+                    <button onClick={resetTimer} disabled={!startedFlag} className={resetBtnClasses()}>
+                        Reset
+                    </button>
+                </div>
+            </div>
+            <div className="w-2/12 flex flex-col justify-start items-center h-full">
+                <button className="mr-11 mt-9 fill-white/25 hover:fill-white">
+                    <svg height="25px" width="25px" id="Layer_1" data-name="Layer 1"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                            <path className="cls-1" d="M8,6.5A1.5,1.5,0,1,1,6.5,8,1.5,1.5,0,0,1,8,6.5ZM.5,8A1.5,1.5,0,1,0,2,6.5,1.5,1.5,0,0,0,.5,8Zm12,0A1.5,1.5,0,1,0,14,6.5,1.5,1.5,0,0,0,12.5,8Z"/>
+                    </svg>
                 </button>
             </div>
         </div>
